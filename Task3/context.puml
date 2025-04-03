@@ -1,0 +1,28 @@
+@startuml
+!include <C4/C4_Container>
+
+Person_Ext(client, "Клиент", "")
+Person(man_front, "Менеджер фронт-офиса", "")
+Person(man_back, "Менеджер бек-офиса", "")
+Person(man_call_center, "Менеджер внутреннего кол-центра", "")
+Person_Ext(man_ext_call_center, "Менеджер внешнего кол-центра", "")
+
+System_Ext(sms, "смс-шлюз")
+System_Ext(call_center, "внешний кол-центр")
+System(bank, "Депозитная система")
+System(abc, "АБС")
+
+
+
+Rel(bank, sms, "")
+Rel(call_center, bank, "")
+Rel(man_front, bank, "")
+Rel(man_back, bank, "")
+Rel(client, bank, "")
+Rel(man_call_center, bank, "")
+Rel(man_ext_call_center, call_center, "")
+Rel(bank, abc, "")
+Rel(front, bank, "")
+
+
+@enduml

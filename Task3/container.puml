@@ -1,0 +1,78 @@
+@startuml
+!include <C4/C4_Container>
+
+Person_Ext(client, "Клиент", "")
+
+Person(man_front, "Менеджер фронт-офиса", "")
+Person(man_back, "Менеджер бек-офиса", "")
+Person(man_call_center, "Менеджер внутреннего кол-центра", "")
+Person_Ext(man_ext_call_center, "Менеджер внешнего кол-центра", "")
+
+
+System_Ext(sms, "смс-шлюз")
+System_Ext(call_center, "внешний кол-центр")
+
+System_Boundary(abc, "АБС") {
+
+    Container(abc_service, "Сервис АБС", "")
+    Container(abc_service_db, "БД сервиса АБС", "Oracle db", "")
+}
+
+System_Boundary(bank, "Депозитная система") {
+
+    Container(front, "Сайт", "React.js", "Сайт для клиентов банка")
+
+    Container(sso, "SSO", "Отвечает за аутентификацию и авторизацию клиентов и сотрудников банка")
+
+    Container(front_for_manager, "Сайт для менеджеров", "React.js", "Сайт для управление сервисом вкладов")
+
+    Container(request_service, "Сервис заявок", "ASP.NET", "Сервис для работы с заявками на вклады")
+    Container(request_service_db, "БД сервиса заявок", "MySQL", "")
+
+    Container(rate_service, "Сервис ставок", "")
+    Container(rate_service_db, "БД сервиса ставок", "MySQL", "")
+
+
+    Container(deposit_service, "Сервис вкладов", "ASP.NET", "Чтение создание вкладов")
+
+    Container(notify_service, "Сервис уведомлений", "ASP.NET", "Отвечает за отправку уведомлений во внешнею среду")
+}
+
+Rel(client, front, "Просмотр ставок")
+Rel(client, front, "Создание заявки на открытие депозита")
+Rel(client, front, "Подача документов для открытия вклада(для новых клиентов)")
+
+Rel(front, request_service, "Работа с заявками на вклады")
+Rel(front, rate_service, "Получение ставок")
+Rel(front, deposit_service, "Получение/Открытие вкладов")
+
+Rel(man_front, front_for_manager, "Работа с заявками, Чтение ставок")
+Rel(man_back, front_for_manager, "Работа со ставками, Работа со вкладами")
+Rel(man_call_center, front_for_manager, "Работа с заявками, Чтение ставок")
+
+Rel(front_for_manager, sso, "Аутентификация и авторизация работников банка")
+Rel(front_for_manager, request_service, "Обработка заявок на вклады")
+Rel(front_for_manager, rate_service, "Редактирование ставок")
+Rel(front_for_manager, deposit_service, "Редактирование вкладов")
+
+Rel(abc_service, abc_service_db, "")
+
+Rel(request_service, request_service_db, "")
+
+Rel(rate_service, rate_service_db, "")
+
+Rel(deposit_service, abc_service_db, "")
+Rel(deposit_service, notify_service, "Отправка запроса на смс уведомление")
+
+Rel(notify_service, sms, "Отправка смс уведомление о редактировании вклада")
+
+
+
+
+
+
+
+
+
+
+@enduml
