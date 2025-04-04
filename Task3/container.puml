@@ -6,11 +6,9 @@ Person_Ext(client, "Клиент", "")
 Person(man_front, "Менеджер фронт-офиса", "")
 Person(man_back, "Менеджер бек-офиса", "")
 Person(man_call_center, "Менеджер внутреннего кол-центра", "")
-Person_Ext(man_ext_call_center, "Менеджер внешнего кол-центра", "")
 
 
 System_Ext(sms, "смс-шлюз")
-System_Ext(call_center, "внешний кол-центр")
 
 System_Boundary(abc, "АБС") {
 
@@ -29,7 +27,7 @@ System_Boundary(bank, "Депозитная система") {
     Container(request_service, "Сервис заявок", "ASP.NET", "Сервис для работы с заявками на вклады")
     Container(request_service_db, "БД сервиса заявок", "MySQL", "")
 
-    Container(rate_service, "Сервис ставок", "")
+    Container(rate_service, "Сервис ставок", "ASP.NET", "Сервис для создания/редактирования ставок")
     Container(rate_service_db, "БД сервиса ставок", "MySQL", "")
 
 
