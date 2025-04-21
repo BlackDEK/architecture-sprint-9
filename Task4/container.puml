@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Container>
+
+
+Person(man_back, "Менеджер бек-офиса", "")
+Person_Ext(man_ext_call_center, "Менеджер внешнего кол-центра", "")
+
+System_Ext(call_center, "внешний кол-центр")
+
+System_Boundary(bank, "Депозитная система") {    
+    Container(rate_service, "Сервис ставок", "ASP.NET", "Сервис для создания/редактирования ставок")
+    Container(rate_service_db, "БД сервиса ставок", "MySQL", "")
+    Container(notify_service, "Сервис уведомлений", "ASP.NET", "Отвечает за отправку уведомлений во внешнею среду")
+}
+
+Rel(man_back, man_ext_call_center, "Передает пароль через смс сообщение")
+Rel(rate_service, rate_service_db, "")
+Rel(rate_service, notify_service, "Формирует архив со актуальными ставками")
+Rel(notify_service, call_center, "Передает данные на электронную почту кол-центра")
+Rel(man_ext_call_center, call_center, "")
+
+@enduml
